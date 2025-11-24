@@ -1,0 +1,165 @@
+===== PRUEBAS EXT4 + LVM =====
+Fecha: Mon Nov 24 12:31:15 PM CET 2025
+
+===== INFO DEL SISTEMA =====
+pve
+Linux pve 6.14.8-2-pve #1 SMP PREEMPT_DYNAMIC PMX 6.14.8-2 (2025-07-22T10:04Z) x86_64 GNU/Linux
+NAME               FSTYPE      FSVER    LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                                 
+├─sda1                                                                                              
+├─sda2             vfat        FAT32          0E21-B3AB                                             
+└─sda3             LVM2_member LVM2 001       hs6kcm-LOFc-4rOF-qHJJ-Lh1C-k3Fc-FabrXv                
+  ├─pve-swap       swap        1              b7cb02ff-bfd2-497e-b9f2-ab4d40777a49                  [SWAP]
+  ├─pve-root       ext4        1.0            f008b2a8-5915-4fd1-8c14-7444ef90d794      9.4G    25% /
+  ├─pve-data_tmeta                                                                                  
+  │ └─pve-data                                                                                      
+  └─pve-data_tdata                                                                                  
+    └─pve-data                                                                                      
+sdb                                                                                                 
+sr0                                                                                                 
+  --- Volume group ---
+  VG Name               pve
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  7
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                3
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <31.50 GiB
+  PE Size               4.00 MiB
+  Total PE              8063
+  Alloc PE / Size       8061 / <31.49 GiB
+  Free  PE / Size       2 / 8.00 MiB
+  VG UUID               WmEr6n-0geC-c0N9-d5Mf-SwqB-Ch27-yNDScl
+   
+  --- Logical volume ---
+  LV Name                data
+  VG Name                pve
+  LV UUID                0HQqIh-Ry38-GgVs-U9Ql-ijPA-bXjF-uYx5JB
+  LV Write Access        read/write
+  LV Creation host, time proxmox, 2025-11-24 11:17:46 +0100
+  LV Pool metadata       data_tmeta
+  LV Pool data           data_tdata
+  LV Status              available
+  # open                 0
+  LV Size                11.80 GiB
+  Allocated pool data    0.00%
+  Allocated metadata     1.58%
+  Current LE             3022
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           252:4
+   
+  --- Logical volume ---
+  LV Path                /dev/pve/swap
+  LV Name                swap
+  VG Name                pve
+  LV UUID                6Cpcdl-y5zt-Xbf9-oTST-RtbV-1L3R-ViQbtD
+  LV Write Access        read/write
+  LV Creation host, time proxmox, 2025-11-24 11:17:46 +0100
+  LV Status              available
+  # open                 1
+  LV Size                <3.88 GiB
+  Current LE             992
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           252:0
+   
+  --- Logical volume ---
+  LV Path                /dev/pve/root
+  LV Name                root
+  VG Name                pve
+  LV UUID                v37fOl-9HAd-iFkI-mBqy-fv04-m9oC-6F9S5K
+  LV Write Access        read/write
+  LV Creation host, time proxmox, 2025-11-24 11:17:46 +0100
+  LV Status              available
+  # open                 1
+  LV Size                <13.81 GiB
+  Current LE             3535
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           252:1
+   
+
+===== PRUEBA DE RENDIMIENTO (dd) =====
+--- Escritura ---
+1+0 records in
+1+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 11.612 s, 92.5 MB/s
+--- Lectura ---
+1+0 records in
+1+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 4.46886 s, 240 MB/s
+
+===== SNAPSHOT LVM =====
+  Volume group "pve" has insufficient free space (2 extents): 256 required.
+Snapshot creado.
+  Volume group name "*" has invalid characters.
+  Cannot process volume group *
+Snapshot eliminado.
+
+===== CONSUMO DE RECURSOS =====
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       1.5Gi       5.5Gi        32Mi       1.0Gi       6.2Gi
+Swap:          3.9Gi          0B       3.9Gi
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  2
+On-line CPU(s) list:                     0,1
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 9 3900X 12-Core Processor
+CPU family:                              23
+Model:                                   113
+Thread(s) per core:                      1
+Core(s) per socket:                      2
+Socket(s):                               1
+Stepping:                                0
+BogoMIPS:                                7585.74
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm rep_good nopl cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw perfctr_core ssbd ibpb stibp vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 clzero xsaveerptr wbnoinvd arat npt lbrv nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload vgif umip rdpid overflow_recov succor arch_capabilities
+Virtualization:                          AMD-V
+Hypervisor vendor:                       KVM
+Virtualization type:                     full
+L1d cache:                               128 KiB (2 instances)
+L1i cache:                               128 KiB (2 instances)
+L2 cache:                                1 MiB (2 instances)
+L3 cache:                                32 MiB (2 instances)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0,1
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Ghostwrite:                Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Mitigation; untrained return thunk; SMT disabled
+Vulnerability Spec rstack overflow:      Mitigation; SMT disabled
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; IBPB conditional; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsx async abort:           Not affected
+
+===== INTEGRIDAD DE DATOS =====
+1+0 records in
+1+0 records out
+10485760 bytes (10 MB, 10 MiB) copied, 0.0301874 s, 347 MB/s
+8bb249dd1657973042e776b2419de5e6965f32391d2015023880230be6589885  /test_integrity
+8bb249dd1657973042e776b2419de5e6965f32391d2015023880230be6589885  /test_integrity_copy
+===== FIN DE PRUEBAS EXT4 + LVM =====
