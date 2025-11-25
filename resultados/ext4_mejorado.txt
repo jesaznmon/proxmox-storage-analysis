@@ -1,27 +1,27 @@
 ==========================================
   BENCHMARK EXT4+LVM - PROXMOX
   Punto de montaje: /
-  Fecha: Tue Nov 25 10:56:16 AM CET 2025
+  Fecha: Tue Nov 25 11:11:37 AM CET 2025
 ==========================================
 
 === 1. RENDIMIENTO SECUENCIAL ===
-Escritura: 106 MB/s
+Escritura: 156 MB/s
 Lectura:   164 MB/s
 
 === 2. IOPS 4K Random (VMs y BBDD) ===
-Read IOPS:  45.5k
-Write IOPS: 1661
+Read IOPS:  91.3k
+Write IOPS: 25.3k
 
 === 3. LATENCIA (menor = mejor) ===
-    slat (usec): min=6, max=127, avg=11.04, stdev= 5.38
+    slat (usec): min=5, max=369, avg= 8.62, stdev= 3.65
 
 === 4. SNAPSHOTS (LVM) ===
 ⚠️  Espacio insuficiente para snapshot (8.00m MB)
 
 === 5. CONSUMO DE RECURSOS ===
 RAM total: 7943 MB
-RAM usada: 1350 MB
-Caché FS:  150 MB
+RAM usada: 1346 MB
+Caché FS:  149 MB
 
 === 6. VALORACIÓN PARA PROXMOX ===
 
