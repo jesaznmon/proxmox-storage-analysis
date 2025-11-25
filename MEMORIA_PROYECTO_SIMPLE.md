@@ -298,6 +298,52 @@ RAM usada: 1.9 GB (incluye ARC)
 ARC: Auto-ajustable según RAM disponible
 ```
 
+## 5.3 BTRFS
+
+### Rendimiento
+```
+Escritura secuencial: ~85-95 MB/s (estimado)
+Lectura secuencial:   ~220-235 MB/s (estimado)
+```
+
+**Análisis**: Rendimiento muy similar a EXT4 (±5%). En entorno virtualizado de prueba, los valores serían comparables. En SSD real: 380-520 MB/s esperado.
+
+### Configuración
+```
+Filesystem: BTRFS
+Compresión: Opcional (zstd, lzo, zlib)
+Subvolúmenes: Soporte nativo
+Copy-on-Write: Activo por defecto
+```
+
+### Snapshots
+```
+Tiempo creación: <0.02s (instantáneo)
+Overhead: Mínimo
+Basado en: Subvolúmenes CoW
+```
+
+**Análisis**: Similar a ZFS, los snapshots son instantáneos mediante Copy-on-Write. No requieren espacio preasignado y tienen overhead mínimo en rendimiento.
+
+### Recursos
+```
+RAM usada: ~1.6-1.7 GB (sistema + caché)
+Overhead FS: ~200-500 MB
+Caché: Crece dinámicamente según uso
+```
+
+**Análisis**: Consumo de RAM intermedio entre EXT4 y ZFS. Más que EXT4 pero significativamente menos que ZFS con ARC.
+
+### Características adicionales
+```
+Checksums: Activos en datos y metadata
+Balance automático: Disponible
+Deduplicación: En desarrollo
+RAID: 0, 1, 10 (estables), 5/6 (experimental)
+```
+
+**Nota**: Los resultados de BTRFS son estimaciones basadas en características del sistema y literatura técnica, ya que no se ejecutaron pruebas completas en instalación Proxmox BTRFS durante este proyecto.
+
 \newpage
 
 # 6. Comparativa de Sistemas
