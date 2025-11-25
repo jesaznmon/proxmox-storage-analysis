@@ -1,71 +1,54 @@
 #!/bin/bash
 
-RESULTS="/root/resultados_storage.txt"
-echo "===== PRUEBAS BTRFS =====" > $RESULTS
-echo "Fecha: $(date)" >> $RESULTS
-echo "" >> $RESULTS
+PROJECT_DIR=$(find / -type d -name "proxmox-storage-analysis" 2>/dev/null | head -1)
 
-############################################
-# 1. INFO BTRFS
-############################################
+# Si no se encuentra, abortar
+if [ -z "$PROJECT_DIR" ]; then
+    echo "ERROR: No se encontró la carpeta proxmox-storage-analysis en el sistema."
+    exit 1
+fi
 
-echo "===== INFO DEL FILESYSTEM =====" >> $RESULTS
-btrfs filesystem df / >> $RESULTS
-btrfs filesystem show >> $RESULTS
-echo "" >> $RESULTS
+# Ruta final de resultados
+DIR="$PROJECT_DIR/resultados"
 
-############################################
-# 2. RENDIMIENTO
-############################################
+# Crear carpeta resultados si no existe
+mkdir -p "$DIR"
 
-echo "===== RENDIMIENTO (dd) =====" >> $RESULTS
-dd if=/dev/zero of=/test_btrfs bs=1G count=1 oflag=direct 2>> $RESULTS
+OUT="$DIR/btrfs_resultados.txt"
+echo "==================== RESULTADOS BTRFS ====================" > $OUT
+
+# ---- Rendimiento ----
+W=$( (dd if=/dev/zero of=/testfile bs=1G count=1 oflag=direct 2>&1) | grep -o '[0-9.]\+ MB/s' | head -1 )
 sync
-dd if=/test_btrfs of=/dev/null bs=1G count=1 iflag=direct 2>> $RESULTS
-rm -f /test_btrfs
-echo "" >> $RESULTS
+R=$( (dd if=/testfile of=/dev/null bs=1G count=1 iflag=direct 2>&1) | grep -o '[0-9.]\+ MB/s' | head -1 )
+rm -f /testfile
 
-############################################
-# 3. SUBVOLUMEN + SNAPSHOT
-############################################
+# ---- Snapshot ----
+btrfs subvolume create /svtest &>/dev/null
+btrfs subvolume snapshot /svtest /svsnap &>/dev/null
+SNAP=$([ $? -eq 0 ] && echo "OK" || echo "FALLO")
+btrfs subvolume delete /svsnap &>/dev/null
+btrfs subvolume delete /svtest &>/dev/null
 
-echo "===== SUBVOLUMEN Y SNAPSHOT =====" >> $RESULTS
-btrfs subvolume create /btrfs_test >> $RESULTS
-btrfs subvolume snapshot /btrfs_test /btrfs_test_snap >> $RESULTS
-btrfs subvolume list / >> $RESULTS
-btrfs subvolume delete /btrfs_test_snap >> $RESULTS
-btrfs subvolume delete /btrfs_test >> $RESULTS
-echo "" >> $RESULTS
+# ---- Recursos ----
+RAM=$(free -m | awk '/Mem:/ {print $3}')
 
-############################################
-# 4. COMPRESIÓN
-############################################
+# ---- Integridad ----
+dd if=/dev/urandom of=/integrity bs=10M count=1 &>/dev/null
+H1=$(sha256sum /integrity | awk '{print $1}')
+cp /integrity /integrity2
+H2=$(sha256sum /integrity2 | awk '{print $1}')
+rm -f /integrity /integrity2
+INT=$([ "$H1" = "$H2" ] && echo "OK" || echo "FALLO")
 
-echo "===== COMPRESIÓN =====" >> $RESULTS
-dd if=/dev/zero of=/test_compress bs=100M count=1 2>> $RESULTS
-btrfs filesystem df / >> $RESULTS
-rm -f /test_compress
-echo "" >> $RESULTS
+# ---- Volcar ----
+echo "Escritura (MB/s): $W" >> $OUT
+echo "Lectura  (MB/s): $R" >> $OUT
+echo "Snapshot: $SNAP" >> $OUT
+echo "Integridad: $INT" >> $OUT
+echo "Consumo RAM (MB): $RAM" >> $OUT
+echo "Funciones avanzadas: Snapshots, Subvolúmenes, Compresión (opcional)" >> $OUT
+echo "Tolerancia a fallos: Media (según config RAID)" >> $OUT
 
-############################################
-# 5. RECURSOS
-############################################
-
-echo "===== RECURSOS =====" >> $RESULTS
-free -h >> $RESULTS
-lscpu >> $RESULTS
-echo "" >> $RESULTS
-
-############################################
-# 6. INTEGRIDAD
-############################################
-
-echo "===== INTEGRIDAD =====" >> $RESULTS
-dd if=/dev/urandom of=/test_integrity bs=10M count=1 2>> $RESULTS
-sha256sum /test_integrity >> $RESULTS
-cp /test_integrity /test_integrity_copy
-sha256sum /test_integrity_copy >> $RESULTS
-rm -f /test_integrity /test_integrity_copy
-
-echo "===== FIN DE PRUEBAS BTRFS =====" >> $RESULTS
-echo "Resultados en: $RESULTS"
+echo "==========================================================" >> $OUT
+echo "Archivo generado en: $OUT"

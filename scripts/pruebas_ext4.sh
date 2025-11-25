@@ -1,71 +1,54 @@
 #!/bin/bash
 
-RESULTS="/root/resultados_storage.txt"
-echo "===== PRUEBAS EXT4 + LVM =====" > $RESULTS
-echo "Fecha: $(date)" >> $RESULTS
-echo "" >> $RESULTS
+PROJECT_DIR=$(find / -type d -name "proxmox-storage-analysis" 2>/dev/null | head -1)
 
-############################################
-# 1. INFO DEL SISTEMA
-############################################
+# Si no se encuentra, abortar
+if [ -z "$PROJECT_DIR" ]; then
+    echo "ERROR: No se encontró la carpeta proxmox-storage-analysis en el sistema."
+    exit 1
+fi
 
-echo "===== INFO DEL SISTEMA =====" >> $RESULTS
-hostname >> $RESULTS
-uname -a >> $RESULTS
-lsblk -f >> $RESULTS
-vgdisplay >> $RESULTS
-lvdisplay >> $RESULTS
-echo "" >> $RESULTS
+# Ruta final de resultados
+DIR="$PROJECT_DIR/resultados"
 
-############################################
-# 2. RENDIMIENTO (dd)
-############################################
+# Crear carpeta resultados si no existe
+mkdir -p "$DIR"
 
-echo "===== PRUEBA DE RENDIMIENTO (dd) =====" >> $RESULTS
-echo "--- Escritura ---" >> $RESULTS
-dd if=/dev/zero of=/test_file bs=1G count=1 oflag=direct 2>> $RESULTS
+OUT="$DIR/ext4_resultados.txt"
 
-echo "--- Lectura ---" >> $RESULTS
+echo "=============== RESULTADOS EXT4 + LVM ===============" > $OUT
+
+# ---- Rendimiento ----
+W=$( (dd if=/dev/zero of=/testfile bs=1G count=1 oflag=direct 2>&1) | grep -o '[0-9.]\+ MB/s' | head -1 )
 sync
-dd if=/test_file of=/dev/null bs=1G count=1 iflag=direct 2>> $RESULTS
+R=$( (dd if=/testfile of=/dev/null bs=1G count=1 iflag=direct 2>&1) | grep -o '[0-9.]\+ MB/s' | head -1 )
+rm -f /testfile
 
-rm -f /test_file
-echo "" >> $RESULTS
+# ---- Snapshot LVM ----
+LV=$(lvdisplay 2>/dev/null | grep "LV Path" | awk '{print $3}' | head -1)
+lvcreate -s -n snap_test -L 1G $LV &>/dev/null
+SNAP=$([ $? -eq 0 ] && echo "OK" || echo "FALLÓ")
+lvremove -f /dev/*/snap_test &>/dev/null
 
-############################################
-# 3. SNAPSHOT LVM
-############################################
+# ---- Recursos ----
+RAM=$(free -m | awk '/Mem:/ {print $3}')
 
-echo "===== SNAPSHOT LVM =====" >> $RESULTS
+# ---- Integridad ----
+dd if=/dev/urandom of=/integrity bs=10M count=1 &>/dev/null
+H1=$(sha256sum /integrity | awk '{print $1}')
+cp /integrity /integrity2
+H2=$(sha256sum /integrity2 | awk '{print $1}')
+rm -f /integrity /integrity2
+INT=$([ "$H1" = "$H2" ] && echo "OK" || echo "FALLO")
 
-LV=$(lvdisplay | grep "LV Path" | awk '{print $3}' | head -1)
+# ---- Volcar resultados ----
+echo "Escritura (MB/s): $W" >> $OUT
+echo "Lectura  (MB/s): $R" >> $OUT
+echo "Snapshot: $SNAP" >> $OUT
+echo "Integridad: $INT" >> $OUT
+echo "Consumo RAM (MB): $RAM" >> $OUT
+echo "Funciones avanzadas: Ninguna" >> $OUT
+echo "Tolerancia a fallos: Depende del RAID externo" >> $OUT
 
-lvcreate -s -n snap_test -L 1G $LV >> $RESULTS 2>&1
-echo "Snapshot creado." >> $RESULTS
-
-lvremove -f /dev/*/snap_test >> $RESULTS 2>&1
-echo "Snapshot eliminado." >> $RESULTS
-echo "" >> $RESULTS
-
-############################################
-# 4. RECURSOS
-############################################
-
-echo "===== CONSUMO DE RECURSOS =====" >> $RESULTS
-free -h >> $RESULTS
-lscpu >> $RESULTS
-echo "" >> $RESULTS
-
-############################################
-# 5. INTEGRIDAD
-############################################
-
-echo "===== INTEGRIDAD DE DATOS =====" >> $RESULTS
-dd if=/dev/urandom of=/test_integrity bs=10M count=1 2>> $RESULTS
-sha256sum /test_integrity >> $RESULTS
-cp /test_integrity /test_integrity_copy
-sha256sum /test_integrity_copy >> $RESULTS
-rm -f /test_integrity /test_integrity_copy
-
-echo "===== FIN DE PRUEBAS EXT4 + LVM =====" >> $RESULTS
-echo "Resultados en: $RESULTS"
+echo "======================================================" >> $OUT
+echo "Archivo generado en: $OUT"
