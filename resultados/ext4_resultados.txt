@@ -1,0 +1,9 @@
+=============== RESULTADOS EXT4 + LVM ===============
+Escritura (MB/s): 97.1 MB/s
+Lectura  (MB/s): 204 MB/s
+Snapshot: FALLÓ
+Integridad: OK
+Consumo RAM (MB): 1525
+Funciones avanzadas: Ninguna
+Tolerancia a fallos: Depende del RAID externo
+======================================================
