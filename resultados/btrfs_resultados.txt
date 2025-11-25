@@ -1,0 +1,9 @@
+==================== RESULTADOS BTRFS ====================
+Escritura (MB/s): 70.0 MB/s
+Lectura  (MB/s): 360 MB/s
+Snapshot: OK
+Integridad: OK
+Consumo RAM (MB): 1414
+Funciones avanzadas: Snapshots, Subvolúmenes, Compresión (opcional)
+Tolerancia a fallos: Media (según config RAID)
+==========================================================
