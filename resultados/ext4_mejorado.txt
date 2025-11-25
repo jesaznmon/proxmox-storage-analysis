@@ -1,0 +1,46 @@
+==========================================
+  BENCHMARK EXT4+LVM - PROXMOX
+  Punto de montaje: /boot
+  Fecha: mar 25 nov 2025 10:52:40 CET
+==========================================
+
+=== 1. RENDIMIENTO SECUENCIAL ===
+Escritura: 
+Lectura:   
+
+=== 2. IOPS 4K Random (VMs y BBDD) ===
+Read IOPS:  
+Write IOPS: 
+
+=== 3. LATENCIA (menor = mejor) ===
+
+
+=== 4. SNAPSHOTS (LVM) ===
+❌ LVM no detectado
+
+=== 5. CONSUMO DE RECURSOS ===
+RAM total: 31787 MB
+RAM usada: 6470 MB
+Caché FS:  9176 MB
+
+=== 6. VALORACIÓN PARA PROXMOX ===
+
+VENTAJAS:
+  ✓ Rendimiento bruto alto
+  ✓ Muy estable y maduro
+  ✓ Bajo consumo de RAM
+  ✓ Latencia baja
+
+DESVENTAJAS:
+  ✗ Sin checksums (no detecta corrupción)
+  ✗ Sin compresión
+  ✗ Snapshots LVM consumen espacio
+  ✗ Requiere RAID hardware para redundancia
+
+USO RECOMENDADO:
+  • Entornos con almacenamiento externo/SAN
+  • Máximo rendimiento sin funciones avanzadas
+  • Cuando hay poco RAM disponible
+
+==========================================
+==========================================
