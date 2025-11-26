@@ -61,13 +61,11 @@ echo "" | tee -a $OUT
 echo "=== 2. IOPS 4K Random (VMs y BBDD) ===" | tee -a $OUT
 
 if [ "$USE_FIO" = true ]; then
-    # Random Read
     READ_IOPS=$(fio --name=rr --ioengine=libaio --iodepth=32 --rw=randread \
         --bs=4k --direct=1 --size=512M --numjobs=1 --runtime=30 --time_based \
         --group_reporting --filename=$TEST_FILE 2>/dev/null | \
         grep "read:" | grep -oP 'IOPS=\K[0-9.k]+')
 
-    # Random Write
     WRITE_IOPS=$(fio --name=rw --ioengine=libaio --iodepth=32 --rw=randwrite \
         --bs=4k --direct=1 --size=512M --numjobs=1 --runtime=30 --time_based \
         --group_reporting --filename=$TEST_FILE 2>/dev/null | \
