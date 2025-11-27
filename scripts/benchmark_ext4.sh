@@ -108,9 +108,9 @@ if [ -n "$LV" ]; then
     VG=$(lvdisplay $LV 2>/dev/null | grep "VG Name" | awk '{print $3}')
     FREE_MB=$(vgs --noheadings -o vg_free --units m $VG 2>/dev/null | tr -d 'M' | xargs)
 
-    if (( $(echo "$FREE_MB > 100" | bc -l) )); then
+    if (( $(echo "$FREE_MB > 7" | bc -l) )); then
         START=$(date +%s.%N)
-        lvcreate -s -n bench_snap -L 100M $LV &>/dev/null
+        lvcreate -s -n bench_snap -L 7M $LV &>/dev/null
         END=$(date +%s.%N)
         SNAP_TIME=$(echo "$END - $START" | bc)
 
