@@ -1,0 +1,31 @@
+==========================================
+  BENCHMARK ZFS - PROXMOX
+  Pool: rpool
+  Dataset: rpool
+  Montaje: /rpool
+  Fecha: Thu Nov 27 07:59:37 PM CET 2025
+==========================================
+
+=== 1. RENDIMIENTO SECUENCIAL ===
+Escritura: 5.9 GB/s
+Lectura:   13.2 GB/s
+
+=== 2. IOPS 4K Random (VMs y BBDD) ===
+Read IOPS:  76.9k
+Write IOPS: 2536
+
+=== 3. LATENCIA (menor = mejor) ===
+    slat (usec): min=4, max=107447, avg=675.68, stdev=1996.67
+
+=== 4. SNAPSHOTS (ZFS) ===
+Tiempo creación: .043614305s (instantáneo)
+Snapshots actuales: 1
+
+=== 5. CONSUMO DE RECURSOS ===
+RAM total: 7943 MB
+RAM usada: 1563 MB
+Caché FS:  116 MB
+
+
+==========================================
+==========================================
