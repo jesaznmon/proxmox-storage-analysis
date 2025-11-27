@@ -1,0 +1,52 @@
+==========================================
+  BENCHMARK ZFS - PROXMOX
+  Pool: rpool
+  Dataset: rpool
+  Montaje: /rpool
+  Fecha: Thu Nov 27 12:53:35 PM CET 2025
+==========================================
+
+=== 1. RENDIMIENTO SECUENCIAL ===
+Escritura: 4.3 GB/s
+Lectura:   13.5 GB/s
+
+=== 2. IOPS 4K Random (VMs y BBDD) ===
+Read IOPS:  77.0k
+Write IOPS: 2190
+
+=== 3. LATENCIA (menor = mejor) ===
+    slat (usec): min=8, max=143089, avg=2395.65, stdev=5593.19
+
+=== 4. SNAPSHOTS (ZFS) ===
+Tiempo creación: .097317701s (instantáneo)
+Snapshots actuales: 1
+
+=== 5. CONSUMO DE RECURSOS ===
+RAM total: 7943 MB
+RAM usada: 1584 MB
+Caché FS:  117 MB
+
+=== 6. VALORACIÓN PARA PROXMOX ===
+
+VENTAJAS:
+  ✓ Checksums automáticos (integridad garantizada)
+  ✓ Snapshots instantáneos sin overhead
+  ✓ Compresión transparente (ahorra espacio)
+  ✓ RAID nativo (mirror, raidz)
+  ✓ Detección y corrección de errores
+  ✓ Thin provisioning nativo
+
+DESVENTAJAS:
+  ✗ Alto consumo de RAM (ARC)
+  ✗ Mayor latencia vs EXT4
+  ✗ CPU extra por compresión/checksums
+  ✗ Deduplicación consume mucha RAM
+
+USO RECOMENDADO:
+  • Servidores con 32GB+ RAM
+  • Cuando la integridad es crítica
+  • Necesidad de snapshots frecuentes
+  • Configuración RAID sin hardware dedicado
+
+==========================================
+==========================================
