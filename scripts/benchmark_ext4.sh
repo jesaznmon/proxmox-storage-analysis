@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Benchmark mejorado para EXT4+LVM en Proxmox
-# Enfocado en métricas críticas para virtualización
 
 PROJECT_DIR=$(find / -type d -name "proxmox-storage-analysis" 2>/dev/null | head -1)
 if [ -z "$PROJECT_DIR" ]; then
@@ -11,7 +9,7 @@ fi
 
 RESULTS_DIR="$PROJECT_DIR/resultados"
 mkdir -p "$RESULTS_DIR"
-OUT="$RESULTS_DIR/ext4_mejorado.txt"
+OUT="$RESULTS_DIR/ext4.txt"
 
 # Detección automática del punto de montaje EXT4
 MOUNT_POINT=$(df -t ext4 | grep -v "tmpfs" | awk 'NR==2 {print $6}')

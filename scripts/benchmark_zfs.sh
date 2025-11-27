@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Benchmark mejorado para ZFS en Proxmox
-# Enfocado en métricas críticas para virtualización
-
 PROJECT_DIR=$(find / -type d -name "proxmox-storage-analysis" 2>/dev/null | head -1)
 if [ -z "$PROJECT_DIR" ]; then
     echo "ERROR: No se encontró proxmox-storage-analysis"
@@ -11,7 +8,7 @@ fi
 
 RESULTS_DIR="$PROJECT_DIR/resultados"
 mkdir -p "$RESULTS_DIR"
-OUT="$RESULTS_DIR/zfs_mejorado.txt"
+OUT="$RESULTS_DIR/zfs.txt"
 
 # Verificar que ZFS está disponible
 if ! command -v zpool &> /dev/null; then

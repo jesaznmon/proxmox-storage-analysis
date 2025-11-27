@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Benchmark mejorado para BTRFS en Proxmox
-# Enfocado en métricas críticas para virtualización
-
 PROJECT_DIR=$(find / -type d -name "proxmox-storage-analysis" 2>/dev/null | head -1)
 if [ -z "$PROJECT_DIR" ]; then
     echo "ERROR: No se encontró proxmox-storage-analysis"
@@ -11,7 +8,7 @@ fi
 
 RESULTS_DIR="$PROJECT_DIR/resultados"
 mkdir -p "$RESULTS_DIR"
-OUT="$RESULTS_DIR/btrfs_mejorado.txt"
+OUT="$RESULTS_DIR/btrfs.txt"
 
 # Detección automática del punto de montaje BTRFS
 MOUNT_POINT=$(df -t btrfs | grep -v "tmpfs" | awk 'NR==2 {print $6}')
