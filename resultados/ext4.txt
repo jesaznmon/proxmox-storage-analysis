@@ -16,7 +16,7 @@ Write IOPS: 26.3k
     clat (usec): min=105, max=101740, avg=275.71, stdev=1073.27
 
 === 4. SNAPSHOTS (LVM) ===
-⚠️  Espacio insuficiente para snapshot (8.00m MB)
+   Espacio insuficiente para snapshot (8.00m MB)
 
 === 5. CONSUMO DE RECURSOS ===
 RAM total: 7943 MB
