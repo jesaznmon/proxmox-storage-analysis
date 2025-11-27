@@ -133,61 +133,23 @@ zfs destroy ${DATASET}@benchmark_test &>/dev/null
 echo "" | tee -a $OUT
 
 # ============================================
-# 5. COMPRESIÓN
+# 5. RECURSOS
 # ============================================
-echo "=== 5. COMPRESIÓN ===" | tee -a $OUT
-
-COMP_ENABLED=$(zfs get -H -o value compression $DATASET)
-COMP_RATIO=$(zfs get -H -o value compressratio $POOL)
-
-echo "Algoritmo activo: $COMP_ENABLED" | tee -a $OUT
-echo "Ratio actual: $COMP_RATIO" | tee -a $OUT
-
-# Calcular ahorro de espacio
-USED=$(zfs get -H -o value used $DATASET)
-REFER=$(zfs get -H -o value referenced $DATASET)
-echo "Espacio usado: $USED (referenciado: $REFER)" | tee -a $OUT
-echo "" | tee -a $OUT
-
-# ============================================
-# 6. RECURSOS (ARC)
-# ============================================
-echo "=== 6. CONSUMO DE RECURSOS (ARC) ===" | tee -a $OUT
-
-if [ -f /proc/spl/kstat/zfs/arcstats ]; then
-    ARC_SIZE=$(awk '/^size/ {print int($3/1024/1024)}' /proc/spl/kstat/zfs/arcstats)
-    ARC_MAX=$(awk '/^c_max/ {print int($3/1024/1024)}' /proc/spl/kstat/zfs/arcstats)
-    ARC_HIT=$(awk '/^hits/ {print $3}' /proc/spl/kstat/zfs/arcstats)
-    ARC_MISS=$(awk '/^misses/ {print $3}' /proc/spl/kstat/zfs/arcstats)
-
-    if [ "$ARC_MISS" -gt 0 ]; then
-        HIT_RATE=$(echo "scale=2; $ARC_HIT * 100 / ($ARC_HIT + $ARC_MISS)" | bc)
-    else
-        HIT_RATE="100"
-    fi
-
-    echo "ARC usado: ${ARC_SIZE} MB / ${ARC_MAX} MB" | tee -a $OUT
-    echo "Hit rate: ${HIT_RATE}%" | tee -a $OUT
-fi
+echo "=== 5. CONSUMO DE RECURSOS ===" | tee -a $OUT
 
 RAM_TOTAL=$(free -m | awk '/^Mem:/ {print $2}')
 RAM_USADO=$(free -m | awk '/^Mem:/ {print $3}')
+CACHE=$(free -m | awk '/^Mem:/ {print $6}')
 
 echo "RAM total: ${RAM_TOTAL} MB" | tee -a $OUT
 echo "RAM usada: ${RAM_USADO} MB" | tee -a $OUT
+echo "Caché FS:  ${CACHE} MB" | tee -a $OUT
 echo "" | tee -a $OUT
 
 # ============================================
-# 7. ESTADO DEL POOL
+# 6. ANÁLISIS PARA PROXMOX
 # ============================================
-echo "=== 7. ESTADO DEL POOL ===" | tee -a $OUT
-zpool status $POOL | tee -a $OUT
-echo "" | tee -a $OUT
-
-# ============================================
-# 8. ANÁLISIS PARA PROXMOX
-# ============================================
-echo "=== 8. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
+echo "=== 6. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
 echo "" | tee -a $OUT
 echo "VENTAJAS:" | tee -a $OUT
 echo "  ✓ Checksums automáticos (integridad garantizada)" | tee -a $OUT

@@ -125,25 +125,9 @@ btrfs subvolume delete $SUBVOL &>/dev/null
 echo "" | tee -a $OUT
 
 # ============================================
-# 5. COMPRESIÓN
+# 5. RECURSOS
 # ============================================
-echo "=== 5. COMPRESIÓN ===" | tee -a $OUT
-
-COMP_ENABLED=$(mount | grep $MOUNT_POINT | grep -o "compress=[a-z0-9]*" | cut -d= -f2)
-if [ -z "$COMP_ENABLED" ]; then
-    COMP_ENABLED="desactivada"
-fi
-
-echo "Estado: $COMP_ENABLED" | tee -a $OUT
-
-# Información de uso
-btrfs filesystem usage $MOUNT_POINT 2>/dev/null | head -8 | tee -a $OUT
-echo "" | tee -a $OUT
-
-# ============================================
-# 6. RECURSOS
-# ============================================
-echo "=== 6. CONSUMO DE RECURSOS ===" | tee -a $OUT
+echo "=== 5. CONSUMO DE RECURSOS ===" | tee -a $OUT
 
 RAM_TOTAL=$(free -m | awk '/^Mem:/ {print $2}')
 RAM_USADO=$(free -m | awk '/^Mem:/ {print $3}')
@@ -151,25 +135,13 @@ CACHE=$(free -m | awk '/^Mem:/ {print $6}')
 
 echo "RAM total: ${RAM_TOTAL} MB" | tee -a $OUT
 echo "RAM usada: ${RAM_USADO} MB" | tee -a $OUT
-echo "Caché FS:  ${CACHE} MB (moderado)" | tee -a $OUT
+echo "Caché FS:  ${CACHE} MB" | tee -a $OUT
 echo "" | tee -a $OUT
 
 # ============================================
-# 7. ESTADO DEL FS
+# 6. ANÁLISIS PARA PROXMOX
 # ============================================
-echo "=== 7. ESTADO DEL FILESYSTEM ===" | tee -a $OUT
-btrfs filesystem show $MOUNT_POINT 2>/dev/null | tee -a $OUT
-echo "" | tee -a $OUT
-
-# Verificar balance y fragmentación
-echo "Balance status:" | tee -a $OUT
-btrfs filesystem df $MOUNT_POINT 2>/dev/null | tee -a $OUT
-echo "" | tee -a $OUT
-
-# ============================================
-# 8. ANÁLISIS PARA PROXMOX
-# ============================================
-echo "=== 8. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
+echo "=== 6. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
 echo "" | tee -a $OUT
 echo "VENTAJAS:" | tee -a $OUT
 echo "  ✓ Snapshots instantáneos (CoW)" | tee -a $OUT
