@@ -1,0 +1,29 @@
+==========================================
+  BENCHMARK BTRFS - PROXMOX
+  Punto de montaje: /
+  Fecha: Thu Nov 27 08:02:16 PM CET 2025
+==========================================
+
+=== 1. RENDIMIENTO SECUENCIAL ===
+Escritura: 63.9 MB/s
+Lectura:   173 MB/s
+
+=== 2. IOPS 4K Random (VMs y BBDD) ===
+Read IOPS:  71.3k
+Write IOPS: 19.2k
+
+=== 3. LATENCIA (menor = mejor) ===
+    slat (usec): min=8, max=924, avg=14.67, stdev= 5.28
+
+=== 4. SNAPSHOTS (BTRFS) ===
+Tiempo creación: .624916244s
+Subvolúmenes actuales: 3
+
+=== 5. CONSUMO DE RECURSOS ===
+RAM total: 7943 MB
+RAM usada: 1366 MB
+Caché FS:  311 MB
+
+
+==========================================
+==========================================
