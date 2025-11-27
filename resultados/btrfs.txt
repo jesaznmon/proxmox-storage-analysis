@@ -1,53 +1,30 @@
 ==========================================
   BENCHMARK BTRFS - PROXMOX
   Punto de montaje: /
-  Fecha: mar 25 nov 2025 10:49:11 CET
+  Fecha: Thu Nov 27 12:59:48 PM CET 2025
 ==========================================
 
 === 1. RENDIMIENTO SECUENCIAL ===
-Escritura: 
-Lectura:   
+Escritura: 60.1 MB/s
+Lectura:   169 MB/s
 
 === 2. IOPS 4K Random (VMs y BBDD) ===
-Read IOPS:  
-Write IOPS: 
+Read IOPS:  75.8k
+Write IOPS: 13.2k
 
 === 3. LATENCIA (menor = mejor) ===
-
+    slat (usec): min=8, max=119, avg=13.16, stdev= 3.52
 
 === 4. SNAPSHOTS (BTRFS) ===
-Tiempo creación: .002460726s
-Subvolúmenes actuales: 0
+Tiempo creación: 1.369049616s
+Subvolúmenes actuales: 3
 
-=== 5. COMPRESIÓN ===
-Estado: zstd
-zstd
-Overall:
-    Device size:		 929.93GiB
-    Device allocated:		 107.02GiB
-    Device unallocated:		 822.90GiB
-    Device missing:		     0.00B
-    Device slack:		     0.00B
-    Used:			  96.93GiB
-    Free (estimated):		 832.07GiB	(min: 420.62GiB)
+=== 5. CONSUMO DE RECURSOS ===
+RAM total: 7943 MB
+RAM usada: 1358 MB
+Caché FS:  284 MB
 
-=== 6. CONSUMO DE RECURSOS ===
-RAM total: 31787 MB
-RAM usada: 6404 MB
-Caché FS:  9156 MB (moderado)
-
-=== 7. ESTADO DEL FILESYSTEM ===
-Label: 'fedora'  uuid: 9e202664-c879-490b-907d-0c87d9a81bdf
-	Total devices 1 FS bytes used 95.38GiB
-	devid    1 size 0 used 0 path /dev/nvme0n1p3 MISSING
-
-Balance status:
-Data, single: total=103.01GiB, used=93.84GiB
-System, DUP: total=8.00MiB, used=16.00KiB
-Metadata, DUP: total=2.00GiB, used=1.54GiB
-GlobalReserve, single: total=246.34MiB, used=0.00B
-
-=== 8. VALORACIÓN PARA PROXMOX ===
+=== 6. VALORACIÓN PARA PROXMOX ===
 
 VENTAJAS:
   ✓ Snapshots instantáneos (CoW)
