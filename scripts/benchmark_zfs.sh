@@ -146,30 +146,6 @@ echo "RAM usada: ${RAM_USADO} MB" | tee -a $OUT
 echo "Caché FS:  ${CACHE} MB" | tee -a $OUT
 echo "" | tee -a $OUT
 
-# ============================================
-# 6. ANÁLISIS PARA PROXMOX
-# ============================================
-echo "=== 6. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "VENTAJAS:" | tee -a $OUT
-echo "  ✓ Checksums automáticos (integridad garantizada)" | tee -a $OUT
-echo "  ✓ Snapshots instantáneos sin overhead" | tee -a $OUT
-echo "  ✓ Compresión transparente (ahorra espacio)" | tee -a $OUT
-echo "  ✓ RAID nativo (mirror, raidz)" | tee -a $OUT
-echo "  ✓ Detección y corrección de errores" | tee -a $OUT
-echo "  ✓ Thin provisioning nativo" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "DESVENTAJAS:" | tee -a $OUT
-echo "  ✗ Alto consumo de RAM (ARC)" | tee -a $OUT
-echo "  ✗ Mayor latencia vs EXT4" | tee -a $OUT
-echo "  ✗ CPU extra por compresión/checksums" | tee -a $OUT
-echo "  ✗ Deduplicación consume mucha RAM" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "USO RECOMENDADO:" | tee -a $OUT
-echo "  • Servidores con 32GB+ RAM" | tee -a $OUT
-echo "  • Cuando la integridad es crítica" | tee -a $OUT
-echo "  • Necesidad de snapshots frecuentes" | tee -a $OUT
-echo "  • Configuración RAID sin hardware dedicado" | tee -a $OUT
 
 echo "" | tee -a $OUT
 echo "==========================================" | tee -a $OUT

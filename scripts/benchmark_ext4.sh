@@ -140,27 +140,6 @@ echo "RAM usada: ${RAM_USADO} MB" | tee -a $OUT
 echo "Caché FS:  ${CACHE} MB" | tee -a $OUT
 echo "" | tee -a $OUT
 
-# ============================================
-# 6. ANÁLISIS PARA PROXMOX
-# ============================================
-echo "=== 6. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "VENTAJAS:" | tee -a $OUT
-echo "  ✓ Rendimiento bruto alto" | tee -a $OUT
-echo "  ✓ Muy estable y maduro" | tee -a $OUT
-echo "  ✓ Bajo consumo de RAM" | tee -a $OUT
-echo "  ✓ Latencia baja" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "DESVENTAJAS:" | tee -a $OUT
-echo "  ✗ Sin checksums (no detecta corrupción)" | tee -a $OUT
-echo "  ✗ Sin compresión" | tee -a $OUT
-echo "  ✗ Snapshots LVM consumen espacio" | tee -a $OUT
-echo "  ✗ Requiere RAID hardware para redundancia" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "USO RECOMENDADO:" | tee -a $OUT
-echo "  • Entornos con almacenamiento externo/SAN" | tee -a $OUT
-echo "  • Máximo rendimiento sin funciones avanzadas" | tee -a $OUT
-echo "  • Cuando hay poco RAM disponible" | tee -a $OUT
 
 echo "" | tee -a $OUT
 echo "==========================================" | tee -a $OUT

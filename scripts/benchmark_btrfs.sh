@@ -136,35 +136,6 @@ echo "RAM usada: ${RAM_USADO} MB" | tee -a $OUT
 echo "Caché FS:  ${CACHE} MB" | tee -a $OUT
 echo "" | tee -a $OUT
 
-# ============================================
-# 6. ANÁLISIS PARA PROXMOX
-# ============================================
-echo "=== 6. VALORACIÓN PARA PROXMOX ===" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "VENTAJAS:" | tee -a $OUT
-echo "  ✓ Snapshots instantáneos (CoW)" | tee -a $OUT
-echo "  ✓ Subvolúmenes flexibles" | tee -a $OUT
-echo "  ✓ Compresión opcional (zstd, lzo)" | tee -a $OUT
-echo "  ✓ RAID integrado (1, 5, 6, 10)" | tee -a $OUT
-echo "  ✓ Checksums de datos" | tee -a $OUT
-echo "  ✓ Balance automático" | tee -a $OUT
-echo "  ✓ Consumo RAM moderado" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "DESVENTAJAS:" | tee -a $OUT
-echo "  ⚠  Menos maduro que EXT4 o ZFS" | tee -a $OUT
-echo "  ⚠  RAID 5/6 aún experimental" | tee -a $OUT
-echo "  ⚠  Puede fragmentarse con el tiempo" | tee -a $OUT
-echo "  ⚠  Rendimiento variable según carga" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "USO RECOMENDADO:" | tee -a $OUT
-echo "  • Balance entre funcionalidad y recursos" | tee -a $OUT
-echo "  • Cuando se necesitan snapshots pero RAM es limitado" | tee -a $OUT
-echo "  • Workloads mixtos (no extremos)" | tee -a $OUT
-echo "  • Flexibilidad en gestión de volúmenes" | tee -a $OUT
-echo "" | tee -a $OUT
-echo "NO RECOMENDADO:" | tee -a $OUT
-echo "  • Entornos de producción críticos (usar ZFS o EXT4)" | tee -a $OUT
-echo "  • Bases de datos de alto rendimiento" | tee -a $OUT
 
 echo "" | tee -a $OUT
 echo "==========================================" | tee -a $OUT
